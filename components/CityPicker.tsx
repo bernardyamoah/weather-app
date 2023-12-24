@@ -36,21 +36,29 @@ const options = Country.getAllCountries().map(country => ({
     },
     label: country.name
 }))
+type CityPickerProps = {
+    setLongitude: (longitude: any) => void;
+    setLatitude: (latitude: any) => void;
+    setCityName: (option: any) => void;
 
-const CityPicker = () => {
+};
+const CityPicker = ({ setLongitude, setLatitude, setCityName }: CityPickerProps) => {
     const [selectedCountry, setSelectedCountry] = useState<option>(null)
     const [selectedCity, setSelectedCity] = useState<cityOption>(null)
-    const router = useRouter()
+
 
     const handleSelectedCountry = (option: option) => {
 
         setSelectedCountry(option)
+
         setSelectedCity(null)
     }
     const handleSelectedCity = (option: cityOption) => {
-
         setSelectedCity(option)
-        router.push(`/location/${option?.value.name}/${option?.value.latitude}/${option?.value.longitude}`)
+        setCityName(option?.value.name || '')
+        setLongitude(option?.value.longitude || '0');
+        setLatitude(option?.value.latitude || '0');
+        // router.push(`/location/${option?.value.name}/${option?.value.latitude}/${option?.value.longitude}`)
     }
     return (
         <div className='space-y-4'>
@@ -70,7 +78,7 @@ const CityPicker = () => {
             {selectedCountry && (
                 <div className='space-y-2'>
                     <div className='flex items-center space-x-2 text-slate-800'>
-                        <GlobeIcon className='h-5 w-5 text-white' />
+                        <GlobeIcon className='h-5 w-5' />
                         <label htmlFor='city'>City</label>
                     </div>
                     <Select

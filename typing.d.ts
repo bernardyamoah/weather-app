@@ -1,6 +1,5 @@
 interface Current {
-  apparent_temperature: string
-  interval: number
+  
   is_day: number
   precipitation: number
   rain: number
@@ -131,16 +130,12 @@ interface Root {
   current_units: CurrentUnits
   daily: Daily
   daily_units: DailyUnits
-  elevation: number
-  generationtime_ms: string
+
   hourly: Hourly
   hourly_units: HourlyUnits
-  latitude: string
-  longitude: string
+  
   minutely_15: Minutely15
   minutely_15_units: Minutely15Units
-  timezone: string
-  timezone_abbreviation: string
-  utc_offset_seconds: number
+
 }
 
