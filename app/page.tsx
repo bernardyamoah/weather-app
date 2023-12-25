@@ -1,8 +1,8 @@
 'use client'
 import CityPicker from "@/components/CityPicker";
-import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { useEffect, useState } from "react";
+import { CardDescription, CardTitle } from "@/components/ui/card";
+
+import { useState } from "react";
 
 import WeatherData from "./WeatherData";
 
