@@ -4,6 +4,7 @@ import Select from 'react-select'
 import { useRouter } from 'next/navigation'
 
 import { GlobeIcon } from '@heroicons/react/solid'
+import { Card, CardContent } from './ui/card'
 type option = {
     value: {
         latitude: string;
@@ -61,48 +62,51 @@ const CityPicker = ({ setLongitude, setLatitude, setCityName }: CityPickerProps)
         // router.push(`/location/${option?.value.name}/${option?.value.latitude}/${option?.value.longitude}`)
     }
     return (
-        <div className='space-y-4'>
-            <div className='space-y-2'>
-                <div className='flex items-center space-x-2 '>
-                    <GlobeIcon className='h-5 w-5 ' />
-                    <label htmlFor='country'>Country</label>
-                </div>
-                <Select
-                    name='country'
-                    value={selectedCountry}
-                    options={options}
-                    onChange={handleSelectedCountry}
-                />
-            </div>
-
-            {selectedCountry && (
-                <div className='space-y-2'>
-                    <div className='flex items-center space-x-2 text-slate-800'>
-                        <GlobeIcon className='h-5 w-5' />
-                        <label htmlFor='city'>City</label>
+        <Card className='w-full mx-auto mt-6 max-w-3xl p-4'>
+            <CardContent className='grid grid-cols-2 items-center gap-5'>
+                <div className='w-full '>
+                    <div className='flex items-center space-x-2 w-full '>
+                        <GlobeIcon className='h-5 w-5 ' />
+                        <label htmlFor='country'>Country</label>
                     </div>
                     <Select
-                        name='city'
-                        value={selectedCity}
-                        options={City.getCitiesOfCountry(selectedCountry.value.isoCode)?.map(
-                            (city) => ({
-                                value: {
-                                    latitude: city.latitude!,
-                                    longitude: city.longitude!,
-                                    countryCode: city.countryCode,
-                                    name: city.name,
-                                    cityCode: city.stateCode
-                                },
-                                label: city.name
-                            })
-                        )}
-                        onChange={handleSelectedCity}
-
+                        className='w-full'
+                        name='country'
+                        value={selectedCountry}
+                        options={options}
+                        onChange={handleSelectedCountry}
                     />
                 </div>
-            )}
 
-        </div>
+                {selectedCountry && (
+                    <div className='w-full'>
+                        <div className='flex items-center space-x-2 text-slate-800'>
+                            <GlobeIcon className='h-5 w-5' />
+                            <label htmlFor='city'>City</label>
+                        </div>
+                        <Select
+                            name='city'
+                            value={selectedCity}
+                            options={City.getCitiesOfCountry(selectedCountry.value.isoCode)?.map(
+                                (city) => ({
+                                    value: {
+                                        latitude: city.latitude!,
+                                        longitude: city.longitude!,
+                                        countryCode: city.countryCode,
+                                        name: city.name,
+                                        cityCode: city.stateCode
+                                    },
+                                    label: city.name
+                                })
+                            )}
+                            onChange={handleSelectedCity}
+
+                        />
+                    </div>
+                )}
+            </CardContent>
+
+        </Card>
     )
 }
 

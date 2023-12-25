@@ -11,7 +11,6 @@ export async function fetchWeatherData(lon: number, lat: number) {
         "hourly": ["temperature_2m", "relative_humidity_2m", "dew_point_2m", "apparent_temperature", "weather_code"],
         "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "apparent_temperature_max", "apparent_temperature_min", "sunrise", "sunset", "daylight_duration", "sunshine_duration", "precipitation_probability_max"],
         "timezone": "GMT",
-        "past_days": 3,
         "forecast_hours": 6
     };
 
@@ -36,7 +35,7 @@ export async function fetchWeatherData(lon: number, lat: number) {
 
     // Note: The order of weather variables in the URL query and the indices below need to match!
     const weatherData = {
-        
+
         current: {
             time: new Date((Number(current.time()) + utcOffsetSeconds) * 1000),
             temperature2m: current.variables(0)!.value(),
@@ -56,7 +55,7 @@ export async function fetchWeatherData(lon: number, lat: number) {
             apparentTemperature: hourly.variables(3)!.valuesArray()!,
             weatherCode: hourly.variables(4)!.valuesArray()!,
         },
-    
+
         daily: {
             time: range(Number(daily.time()), Number(daily.timeEnd()), daily.interval()).map(
                 (t) => new Date((t + utcOffsetSeconds) * 1000)
@@ -70,7 +69,7 @@ export async function fetchWeatherData(lon: number, lat: number) {
             sunset: daily.variables(6)!.valuesArray()!,
             daylightDuration: daily.variables(7)!.valuesArray()!,
             sunshineDuration: daily.variables(8)!.valuesArray()!,
-            precipitationProbabilityMax:daily.variables(9)!.valuesArray()!,
+            precipitationProbabilityMax: daily.variables(9)!.valuesArray()!,
         },
     };
 

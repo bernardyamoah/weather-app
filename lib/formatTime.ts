@@ -21,3 +21,17 @@ export function formatTime(timeString: any) {
 
 	return formattedTime;
 }
+
+export function getDayFromDate(dateString: string): string {
+	const parsedDate = new Date(dateString);
+
+	if (isNaN(parsedDate.getTime())) {
+		return "Invalid Date";
+	}
+
+	const day = new Intl.DateTimeFormat("en-US", { weekday: "short" }).format(
+		parsedDate
+	);
+
+	return day;
+}

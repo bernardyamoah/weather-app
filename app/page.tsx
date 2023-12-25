@@ -13,15 +13,11 @@ export default function Home() {
   const [cityName, setCityName] = useState('');
   return (
     <main className="p-2  lg:p-10 flex flex-col  min-h-screen  ">
-      <Card className="w-96 mx-auto  bg-white p-4">
+  
         <CardTitle className=" text-bold text-3xl mb-5 text-center">Weather App</CardTitle>
         <CardDescription className="text-sm text-muted-foreground text-center">Powered by Bernard</CardDescription>
-        <Separator className="my-10" />
-        <CardContent>
-          <CityPicker setLatitude={setLatitude} setLongitude={setLogitude} setCityName={setCityName} />
-        </CardContent>
-      </Card>
-
+      
+      <CityPicker setLatitude={setLatitude} setLongitude={setLogitude} setCityName={setCityName} />
       <WeatherData longitude={longitude} latitude={latitude} cityName={cityName} />
 
 

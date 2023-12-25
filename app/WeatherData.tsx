@@ -2,9 +2,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Image from "next/image"
 import { useEffect, useState } from "react";
 import { fetchWeatherData } from './fetchWeatherData';
-import { formatTime } from "@/lib/formatTime";
+import { formatTime, getDayFromDate } from "@/lib/formatTime";
 import { Separator } from "@radix-ui/react-separator";
 import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
 
 interface WeatherDataState {
 
@@ -29,6 +30,7 @@ interface WeatherDataState {
     sunrise: Float32Array;
     daylightDuration: Float32Array;
     precipitationProbabilityMax: Float32Array;
+    temperature2mMin: Float32Array;
   };
 
 }
@@ -101,22 +103,19 @@ const WeatherData = ({ longitude, latitude, cityName }: { longitude: any, latitu
   return (
 
     loading ? (
-      <div>Loading</div>
-    ) : <main className="grid grid-cols-1 sm:flex bg-white w-full gap-5  lg:p-4 flex-wrap">
+      <div>{' '}</div>
+    ) : <main className="grid grid-cols-1 sm:flex mt-10 bg-white w-full gap-5  lg:p-4 flex-wrap border rounded-md">
       {/* Left */}
-      <section className="grid grid-cols-1 gap-5 flex-1">
+      <section className=" grid grid-cols-1 gap-5 flex-1">
+
         {/* Current forecast */}
-
-
-
-
         <aside className="p-4">
           <CardHeader className="flex items-center  p-0 flex-row justify-between space-y-0 ">
             <CardTitle className="inline-block font-normal text-slate-500 text-2xl  ">
 
               {cityName}
             </CardTitle>
-            <p className="text-muted-foreground">Time: {formatTime(weatherData?.current.time)}</p>
+            <Badge className="py-3 rounded-lg">{formatTime(weatherData?.current.time)}</Badge>
           </CardHeader>
           <Separator className="my-4" />
           <CardContent className="mt-12 flex justify-between items-center">
@@ -125,18 +124,18 @@ const WeatherData = ({ longitude, latitude, cityName }: { longitude: any, latitu
           </CardContent>
         </aside>
 
-        {/* Hourly Forecast */}
-        <Card className="p-4 xl:bg-slate-50">
-          <CardTitle className="text-muted-foreground text-lg mb-10">Hourly Forecast</CardTitle>
+        {/* Today's forcast Forecast */}
+        <Card className="p-4 bg-slate-50  backdrop-blur-md">
+          <CardTitle className="text-muted-foreground text-lg mb-10">Today&apos;s Forecast</CardTitle>
           <CardContent className="grid grid-cols-2 lg:flex gap-4  lg:gap-5 divide-x-2 mt-3  px-0 flex-wrap">
 
             {weatherData?.hourly?.time.map((time, index) => (
-              <div key={index} className="rounded-md shadow-md bg-white/50 backdrop-blur-md border  flex-1 py-4 flex items-center justify-center flex-col  ">
+              <div key={index} className="     flex-1 py-4 flex items-center justify-center flex-col  ">
                 <h3 className="font-bold text-xs text-muted-foreground ">{formatTime(time)}</h3>
 
                 <Image alt={weatherData?.hourly?.weatherCode[index] !== undefined
                   ? weatherCodeMappings[weatherData.hourly.weatherCode[index]]
-                  : ''} src={`/icons/${weatherData.hourly.weatherCode[index]}.png`} width={50} height={50} className="my-5 object-cover object-center" />
+                  : ''} src={`/icons/${weatherData.hourly.weatherCode[index]}.png`} width={80} height={80} className="my-5 " />
 
                 <p className=" text-xs text-muted-foreground font-light ">  {weatherData?.hourly?.weatherCode[index] !== undefined
                   ? weatherCodeMappings[weatherData.hourly.weatherCode[index]]
@@ -148,21 +147,37 @@ const WeatherData = ({ longitude, latitude, cityName }: { longitude: any, latitu
           </CardContent>
         </Card>
 
-        {/* Air Conditions */}
-        <Card className="p-4 bg-slate-100">
 
-          <CardTitle className="text-muted-foreground text-lg mb-2">Air Conditions</CardTitle>
-          <CardContent className="flex gap-8 divide-x-2 mt-5 ">
-
-
-
-          </CardContent>
-        </Card>
       </section>
 
 
       {/* right */}
-      <Card className="max-w-xs w-96"></Card>
+      <Card className="md:max-w-xs p-4 w-full bg-slate-50 lg:max-h-screen overflow-y-scroll">
+        <CardTitle className="text-muted-foreground text-lg mb-10">7-Day Forcast</CardTitle>
+        <CardContent className="px-0 gap-5 grid divide-y-2 items-center align-middle">
+          {weatherData?.daily?.time.map((time, index) => (
+            <div key={index} className="  backdrop-blur-md  py-4 grid grid-cols-4 place-content-center place-items-center ">
+              <h3 className=" font-thin text-xs text-muted-foreground ">{getDayFromDate(time.toDateString())} {time.getDate()}</h3>
+
+              <div className="col-span-2 w-full flex md:flex-col justify-center items-center " >
+                <Image alt={weatherData?.daily?.weatherCode[index] !== undefined
+                  ? weatherCodeMappings[weatherData.daily.weatherCode[index]]
+                  : ''} src={`/icons/${weatherData.daily.weatherCode[index]}.png`} width={60} height={60} className="my-5 object-cover object-center" />
+
+                <p className=" text-center text-base text-muted-foreground font-bold ">  {weatherData?.daily?.weatherCode[index] !== undefined
+                  ? weatherCodeMappings[weatherData.daily.weatherCode[index]]
+                  : ''}</p>
+              </div>
+
+              <div className="space-x-1">
+                <span className="font-semibold text-base ">{Math.round(weatherData.daily.temperature2mMax[index])}</span>
+                <span>/</span>
+                <span className="text-base text-muted-foreground font-light">{Math.round(weatherData.daily.temperature2mMin[index])}</span>
+              </div>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
     </main>
 
   )
