@@ -65,12 +65,12 @@ const CityPicker = ({ setLongitude, setLatitude, setCityName }: CityPickerProps)
         <Card className='w-full mx-auto mt-6 max-w-3xl p-4'>
             <CardContent className='grid grid-cols-2 items-center gap-5'>
                 <div className='w-full '>
-                    <div className='flex items-center space-x-2 w-full '>
+                    <div className='flex items-center space-x-2 w-full dark:text-white'>
                         <GlobeIcon className='h-5 w-5 ' />
                         <label htmlFor='country'>Country</label>
                     </div>
                     <Select
-                        className='w-full'
+                        className='w-full dark:bg-background dark:text-black '
                         name='country'
                         value={selectedCountry}
                         options={options}
@@ -80,12 +80,13 @@ const CityPicker = ({ setLongitude, setLatitude, setCityName }: CityPickerProps)
 
                 {selectedCountry && (
                     <div className='w-full'>
-                        <div className='flex items-center space-x-2 text-slate-800'>
-                            <GlobeIcon className='h-5 w-5' />
-                            <label htmlFor='city'>City</label>
+                        <div className='flex items-center space-x-2 text-slate-800 dark:text-black'>
+                            <GlobeIcon className='h-5 w-5 dark:text-white' />
+                            <label className='dark:text-white' htmlFor='city'>City</label>
                         </div>
                         <Select
                             name='city'
+                            className='dark:text-black dark:bg-background '
                             value={selectedCity}
                             options={City.getCitiesOfCountry(selectedCountry.value.isoCode)?.map(
                                 (city) => ({

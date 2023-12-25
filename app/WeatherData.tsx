@@ -6,6 +6,7 @@ import { formatTime, getDayFromDate } from "@/lib/formatTime";
 import { Separator } from "@radix-ui/react-separator";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
+import { ModeToggle } from "@/components/ModeToggle";
 
 interface WeatherDataState {
 
@@ -78,7 +79,7 @@ const WeatherData = ({ longitude, latitude, cityName }: { longitude: any, latitu
         const response: WeatherDataState = await fetchWeatherData(longitude, latitude)
 
         if (response) {
-          console.log(JSON.stringify(response, null, 2));
+
 
           setWeatherData(response);
           toast.success(
@@ -104,28 +105,31 @@ const WeatherData = ({ longitude, latitude, cityName }: { longitude: any, latitu
 
     loading ? (
       <div>{' '}</div>
-    ) : <main className="grid grid-cols-1 sm:flex mt-10 bg-white w-full gap-5  lg:p-4 flex-wrap border rounded-md">
+    ) : <main className="grid grid-cols-1 sm:flex mt-10 bg-white dark:bg-slate-950 w-full gap-5  lg:p-4 flex-wrap lg:border rounded-md">
       {/* Left */}
       <section className=" grid grid-cols-1 gap-5 flex-1">
 
         {/* Current forecast */}
         <aside className="p-4">
           <CardHeader className="flex items-center  p-0 flex-row justify-between space-y-0 ">
-            <CardTitle className="inline-block font-normal text-slate-500 text-2xl  ">
+            <CardTitle className="inline-block font-normal text-muted-foreground text-2xl  ">
 
               {cityName}
             </CardTitle>
-            <Badge className="py-3 rounded-lg">{formatTime(weatherData?.current.time)}</Badge>
+            <Badge className="py-2 text-sm rounded-lg">{formatTime(weatherData?.current.time)}</Badge>
+            <ModeToggle />
           </CardHeader>
           <Separator className="my-4" />
-          <CardContent className="mt-12 flex justify-between items-center">
-            <h1 className="text-6xl font-bold">{weatherData?.current.temperature2m !== undefined ? Math.round(weatherData?.current.temperature2m) : ''}°C</h1>
-            <Image alt="star" src={`/icons/${weatherData?.current.weatherCode}.png`} width={200} height={200} className="lg:mr-10" />
+          <CardContent className="mt-12 flex justify-between items-center px-2">
+            <h1 className="text-4xl md:text-6xl font-bold">{weatherData?.current.temperature2m !== undefined ? Math.round(weatherData?.current.temperature2m) : ''}°C</h1>
+            <div className="w-44 md:w-64 h-44 md:h-64 relative">
+              <Image alt={`weatherData?.current.weatherCode`} src={`/icons/${weatherData?.current.weatherCode}.png`} width={200} height={200} className="lg:mr-10  aspect-square object-contain" />
+            </div>
           </CardContent>
         </aside>
 
         {/* Today's forcast Forecast */}
-        <Card className="p-4 bg-slate-50  backdrop-blur-md">
+        <Card className="p-4 bg-slate-50 dark:bg-background backdrop-blur-md">
           <CardTitle className="text-muted-foreground text-lg mb-10">Today&apos;s Forecast</CardTitle>
           <CardContent className="grid grid-cols-2 lg:flex gap-4  lg:gap-5 divide-x-2 mt-3  px-0 flex-wrap">
 
@@ -152,12 +156,12 @@ const WeatherData = ({ longitude, latitude, cityName }: { longitude: any, latitu
 
 
       {/* right */}
-      <Card className="md:max-w-xs p-4 w-full bg-slate-50 lg:max-h-screen overflow-y-scroll">
+      <Card className="md:max-w-xs p-4 w-full bg-slate-50 dark:bg-background lg:max-h-screen overflow-y-scroll">
         <CardTitle className="text-muted-foreground text-lg mb-10">7-Day Forcast</CardTitle>
         <CardContent className="px-0 gap-5 grid divide-y-2 items-center align-middle">
           {weatherData?.daily?.time.map((time, index) => (
             <div key={index} className="  backdrop-blur-md  py-4 grid grid-cols-4 place-content-center place-items-center ">
-              <h3 className=" font-thin text-xs text-muted-foreground ">{getDayFromDate(time.toDateString())} {time.getDate()}</h3>
+              <h3 className=" font-light text-xs text-muted-foreground ">{getDayFromDate(time.toDateString())} {time.getDate()}</h3>
 
               <div className="col-span-2 w-full flex md:flex-col justify-center items-center " >
                 <Image alt={weatherData?.daily?.weatherCode[index] !== undefined
