@@ -12,6 +12,9 @@ interface WeatherDataState {
     time: Date;
     temperature2m: number;
     weatherCode: number;
+    windSpeed10m: number;
+    precipitation: number
+    isDay: number;
   };
   hourly: {
     time: Date[];
@@ -22,6 +25,10 @@ interface WeatherDataState {
     time: Date[];
     weatherCode: Float32Array;
     temperature2mMax: Float32Array;
+    sunset: Float32Array;
+    sunrise: Float32Array;
+    daylightDuration: Float32Array;
+    precipitationProbabilityMax: Float32Array;
   };
 
 }
@@ -114,7 +121,7 @@ const WeatherData = ({ longitude, latitude, cityName }: { longitude: any, latitu
           <Separator className="my-4" />
           <CardContent className="mt-12 flex justify-between items-center">
             <h1 className="text-6xl font-bold">{weatherData?.current.temperature2m !== undefined ? Math.round(weatherData?.current.temperature2m) : ''}°C</h1>
-            <Image alt="star" src="/icons/WeatherIcon - 1-66.png" width={200} height={200} className="lg:mr-10" />
+            <Image alt="star" src={`/icons/${weatherData?.current.weatherCode}.png`} width={200} height={200} className="lg:mr-10" />
           </CardContent>
         </aside>
 
@@ -124,14 +131,18 @@ const WeatherData = ({ longitude, latitude, cityName }: { longitude: any, latitu
           <CardContent className="grid grid-cols-2 lg:flex gap-4  lg:gap-5 divide-x-2 mt-3  px-0 flex-wrap">
 
             {weatherData?.hourly?.time.map((time, index) => (
-              <div key={index} className="rounded-md shadow-md bg-white/50 backdrop-blur-md border  flex-1 py-4 flex items-center justify-center flex-col ">
+              <div key={index} className="rounded-md shadow-md bg-white/50 backdrop-blur-md border  flex-1 py-4 flex items-center justify-center flex-col  ">
                 <h3 className="font-bold text-xs text-muted-foreground ">{formatTime(time)}</h3>
-                <Image alt="star" key={index} src="/icons/Vector 15.png" width={75} height={75} />
-                <p className="text-xs text-muted-foreground font-light ">  {weatherData?.hourly?.weatherCode[index] !== undefined
+
+                <Image alt={weatherData?.hourly?.weatherCode[index] !== undefined
+                  ? weatherCodeMappings[weatherData.hourly.weatherCode[index]]
+                  : ''} src={`/icons/${weatherData.hourly.weatherCode[index]}.png`} width={50} height={50} className="my-5 object-cover object-center" />
+
+                <p className=" text-xs text-muted-foreground font-light ">  {weatherData?.hourly?.weatherCode[index] !== undefined
                   ? weatherCodeMappings[weatherData.hourly.weatherCode[index]]
                   : ''}</p>
 
-                <h2 className="font-semibold text-2xl mt-2">{Math.round(weatherData.hourly.temperature2m[index])}°C</h2>
+                <h2 className="font-semibold text-2xl mt-1">{Math.round(weatherData.hourly.temperature2m[index])}°C</h2>
               </div>
             ))}
           </CardContent>
