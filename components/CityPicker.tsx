@@ -63,7 +63,7 @@ const CityPicker = ({ setLongitude, setLatitude, setCityName }: CityPickerProps)
     }
     return (
         <Card className='w-full mx-auto mt-6 max-w-3xl p-4'>
-            <CardContent className='grid grid-cols-2 items-center gap-5'>
+            <CardContent className='grid grid-cols-1 md:grid-cols-2 items-center gap-5'>
                 <div className='w-full '>
                     <div className='flex items-center space-x-2 w-full dark:text-white'>
                         <GlobeIcon className='h-5 w-5 ' />

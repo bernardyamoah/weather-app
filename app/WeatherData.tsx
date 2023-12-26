@@ -129,13 +129,13 @@ const WeatherData = ({ longitude, latitude, cityName }: { longitude: any, latitu
         </aside>
 
         {/* Today's forcast Forecast */}
-        <Card className="p-4 bg-slate-50 dark:bg-background backdrop-blur-md">
+        <Card className="p-4  bg-slate-50 dark:bg-background backdrop-blur-md">
           <CardTitle className="text-muted-foreground text-lg mb-10">Today&apos;s Forecast</CardTitle>
-          <CardContent className="grid grid-cols-2 lg:flex gap-4  lg:gap-5 divide-x-2 mt-3  px-0 flex-wrap">
+          <CardContent className="grid grid-cols-2  gap-4  lg:gap-5  mt-3  px-0 lg:grid-cols-5">
 
             {weatherData?.hourly?.time.map((time, index) => (
-              <div key={index} className="     flex-1 py-4 flex items-center justify-center flex-col  ">
-                <h3 className="font-bold text-xs text-muted-foreground ">{formatTime(time)}</h3>
+              <Card key={index} className=" border rounded-xl py-4 flex items-center justify-center flex-col dark:bg-slate-800/20 backdrop-blur-md hover:dark:bg-slate-800/50 duration-500 hover:-translate-y-2">
+                <Badge variant='outline' className="font-bold font-mono text-sm  py-1 tracking-wider">{formatTime(time)}</Badge>
 
                 <Image alt={weatherData?.hourly?.weatherCode[index] !== undefined
                   ? weatherCodeMappings[weatherData.hourly.weatherCode[index]]
@@ -146,7 +146,7 @@ const WeatherData = ({ longitude, latitude, cityName }: { longitude: any, latitu
                   : ''}</p>
 
                 <h2 className="font-semibold text-2xl mt-1">{Math.round(weatherData.hourly.temperature2m[index])}°C</h2>
-              </div>
+              </Card>
             ))}
           </CardContent>
         </Card>
@@ -156,7 +156,7 @@ const WeatherData = ({ longitude, latitude, cityName }: { longitude: any, latitu
 
 
       {/* right */}
-      <Card className="md:max-w-xs p-4 w-full bg-slate-50 dark:bg-background lg:max-h-screen overflow-y-scroll">
+      <Card className="md:max-w-xs p-4 w-full bg-slate-50 dark:bg-background  overflow-y-scroll">
         <CardTitle className="text-muted-foreground text-lg mb-10">7-Day Forcast</CardTitle>
         <CardContent className="px-0 gap-5 grid divide-y-2 items-center align-middle">
           {weatherData?.daily?.time.map((time, index) => (

@@ -11,7 +11,8 @@ export async function fetchWeatherData(lon: number, lat: number) {
         "hourly": ["temperature_2m", "relative_humidity_2m", "dew_point_2m", "apparent_temperature", "weather_code"],
         "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "apparent_temperature_max", "apparent_temperature_min", "sunrise", "sunset", "daylight_duration", "sunshine_duration", "precipitation_probability_max"],
         "timezone": "GMT",
-        "forecast_hours": 6
+        "forecast_hours": 24,
+        "wind_speed_unit": "ms"
     };
 
     const responses = await fetchWeatherApi(url, params);
@@ -73,33 +74,6 @@ export async function fetchWeatherData(lon: number, lat: number) {
         },
     };
 
-
-    // `weatherData` now contains a simple structure with arrays for datetime and weather data
-    // for (let i = 0; i < weatherData.hourly.time.length; i++) {
-    //     console.log(
-    //         weatherData.hourly.time[i].toISOString(),
-    //         weatherData.hourly.temperature2m[i],
-    //         weatherData.hourly.apparentTemperature[i],
-    //         weatherData.hourly.precipitation[i],
-    //         weatherData.hourly.weatherCode[i],
-    //         weatherData.hourly.visibility[i],
-    //         weatherData.hourly.windSpeed10m[i]
-    //     );
-    // }
-    // for (let i = 0; i < weatherData.daily.time.length; i++) {
-    //     console.log(
-    //         weatherData.daily.time[i].toISOString(),
-    //         weatherData.daily.temperature2mMax[i],
-    //         weatherData.daily.apparentTemperatureMax[i],
-    //         // weatherData.daily.sunrise[i],
-    //         // weatherData.daily.sunset[i],
-    //         weatherData.daily.daylightDuration[i],
-    //         weatherData.daily.sunshineDuration[i],
-    //         weatherData.daily.uvIndexMax[i],
-    //         weatherData.daily.uvIndexClearSkyMax[i]
-    //     );
-    // }
-    // console.log(weatherData.daily.sunrise)
     return weatherData;
 
 }
