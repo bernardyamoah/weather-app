@@ -11,7 +11,7 @@ export async function fetchWeatherData(lon: number, lat: number) {
         "hourly": ["temperature_2m", "relative_humidity_2m", "dew_point_2m", "apparent_temperature", "weather_code"],
         "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "apparent_temperature_max", "apparent_temperature_min", "sunrise", "sunset", "daylight_duration", "sunshine_duration", "precipitation_probability_max"],
         "timezone": "GMT",
-        "forecast_hours": 24,
+        "forecast_hours": 6,
         "wind_speed_unit": "ms"
     };
 
